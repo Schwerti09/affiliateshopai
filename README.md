@@ -1,0 +1,2 @@
+# affiliateshopai
+Deployed via ZipShip
