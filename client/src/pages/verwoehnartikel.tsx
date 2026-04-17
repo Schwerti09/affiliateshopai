@@ -8,6 +8,7 @@ import { Filters } from "@/components/filters";
 import { ProductQuickView } from "@/components/product-quick-view";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, Heart, ShoppingBag } from "lucide-react";
+import { DEFAULT_PRICE_CEILING } from "@/lib/product-filters";
 import type { Product, Category, PaginatedResponse } from "@shared/schema";
 
 const PRODUCTS_PER_PAGE = 16;
@@ -26,7 +27,7 @@ export default function Verwoehnartikel() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const [sortBy, setSortBy] = useState("relevance");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 200]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, DEFAULT_PRICE_CEILING]);
   const [page, setPage] = useState(1);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -74,9 +75,9 @@ export default function Verwoehnartikel() {
   }, [productsData?.products, page]);
 
   const maxPrice = useMemo(() => {
-    if (!allProducts.length) return 200;
+    if (!allProducts.length) return DEFAULT_PRICE_CEILING;
     const max = Math.max(...allProducts.map((p) => p.priceBrutto));
-    return Math.ceil(max / 10) * 10;
+    return Math.max(Math.ceil(max / 10) * 10, DEFAULT_PRICE_CEILING);
   }, [allProducts]);
 
   const handleSearch = useCallback((query: string) => {
