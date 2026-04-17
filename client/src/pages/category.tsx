@@ -10,6 +10,7 @@ import { ProductQuickView } from "@/components/product-quick-view";
 import { Footer } from "@/components/footer";
 import { SEOHead, generateCategoryBreadcrumbs } from "@/components/seo-head";
 import { cn } from "@/lib/utils";
+import { DEFAULT_PRICE_CEILING } from "@/lib/product-filters";
 import type { Product, Category, PaginatedResponse } from "@shared/schema";
 
 const categoryHeroImages: Record<string, { image: string; subtitle: string; gradient: string }> = {
@@ -60,7 +61,7 @@ export default function CategoryPage() {
       setSearchQuery(urlQuery);
     }
   }, [urlQuery]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 200]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, DEFAULT_PRICE_CEILING]);
   const [page, setPage] = useState(1);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -109,9 +110,9 @@ export default function CategoryPage() {
 
   // Maximaler Preis ermitteln
   const maxPrice = useMemo(() => {
-    if (!allProducts.length) return 200;
+    if (!allProducts.length) return DEFAULT_PRICE_CEILING;
     const max = Math.max(...allProducts.map((p) => p.priceBrutto));
-    return Math.ceil(max / 10) * 10;
+    return Math.max(Math.ceil(max / 10) * 10, DEFAULT_PRICE_CEILING);
   }, [allProducts]);
 
   const handleSearch = useCallback((query: string) => {
