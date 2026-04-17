@@ -18,7 +18,7 @@ const romantikFeatures = [
 
 export default function RomantikPage() {
   const { data: productsData, isLoading } = useQuery<{ products: Product[]; total: number }>({
-    queryKey: ['/api/products', { category: 'reisen', query: 'romantik', limit: 12 }],
+    queryKey: ['/api/products', { category: 'Reisen', query: 'romantik', limit: 12 }],
   });
 
   return (

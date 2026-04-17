@@ -42,9 +42,10 @@ export class MemStorage implements IStorage {
       );
     }
 
-    // Kategorie-Filter
+    // Kategorie-Filter (case-insensitive)
     if (params.category) {
-      filtered = filtered.filter((p) => p.category === params.category);
+      const categoryLower = params.category.toLowerCase();
+      filtered = filtered.filter((p) => p.category.toLowerCase() === categoryLower);
     }
 
     // Preis-Filter

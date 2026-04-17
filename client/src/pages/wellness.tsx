@@ -18,7 +18,7 @@ const wellnessFeatures = [
 
 export default function WellnessPage() {
   const { data: productsData, isLoading } = useQuery<{ products: Product[]; total: number }>({
-    queryKey: ['/api/products', { category: 'reisen', query: 'wellness', limit: 12 }],
+    queryKey: ['/api/products', { category: 'Reisen', query: 'wellness', limit: 12 }],
   });
 
   return (
